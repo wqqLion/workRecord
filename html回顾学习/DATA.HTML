@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>日期比较</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //new Date(year, month, day, hours, minutes, seconds, milliseconds)
+    var x = new Date(2100, 0, 14);
+    var today = new Date();
+    console.log(today) //Tue Jan 07 2020 15:40:31 GMT+0800 (中国标准时间)
+    console.log(x) //Thu Jan 14 2100 15:40:31 GMT+0800 (中国标准时间)
+    console.log(today > x) //false
+</script>
+
+</html>

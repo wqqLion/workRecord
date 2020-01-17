@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <title>touch.js demo</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="css/map.css">
+</head>
+
+<body>
+    <header class="header">
+        <span class="hosptiol-name">双流第一人民医院</span>
+        <div class="logo">
+            <span>楼层导航</span>
+        </div>
+        <div class="time-div">
+            <div class="date-week">
+                <div class="week">星期五</div>
+                <div class="date">2018.02.03</div>
+            </div>
+            <div class="time">12:30</div>
+        </div>
+    </header>
+    <!-- <div style="padding:20px;">
+        <div class="map-box"
+            style="position:relative;width: 100%;height: 300px;overflow: hidden;border: 1px dashed #ff0000;">
+            <img id="targetObj" style="position:relative;transform-origin:center"
+                src="http://demo.somethingwhat.com/images/flower1.jpg" />
+        </div>
+    </div> -->
+    <div class="main">
+        <div class="map-box showDiv">
+            <div class="option-div">
+                <div class="line"></div>
+                <img class="enlarge-img" src="./imgs/add.png" alt="">
+                <img class="narrow-img" src="./imgs/reduce.png" alt="">
+            </div>
+            <!-- class="viewerimg" -->
+            <img id="targetObj" class="map-img" src="./imgs/-1F.jpg" />
+            <!-- <img id="imgView" class="viewerimg map-img" src="./imgs/-1.svg" alt=""> -->
+            <!-- <img class="map-img " width="100%" height="100%" src="./imgs/-1F.jpg" alt="">
+            <img class="map-img active-img" width="100%" height="100%" src="./imgs/1F.jpg" alt="">
+            <img class="map-img " width="100%" height="100%" src="./imgs/2F.jpg" alt="">
+            <img class="map-img " width="100%" height="100%" src="./imgs/3F.jpg" alt="">
+            <img class="map-img " width="100%" height="100%" src="./imgs/4F.jpg" alt="">
+            <img class="map-img " width="100%" height="100%" src="./imgs/5F.jpg" alt=""> -->
+        </div>
+        <ul class="floor-ul">
+            <li class="floor-li">
+                <div data-img="5" class="floor-bpx">门诊医技楼5F(科室分布图)
+                    <span class="close-img"></span>
+                </div>
+                <div class="child-box">
+                    <div data-x="0.14" data-y="0.64" class="child-room">办公室、会议室（5区）</div>
+                    <div data-x="0.45" data-y="0.54" class="child-room">科教科</div>
+                    <div data-x="0.85" data-y="0.60" class="child-room">病理科</div>
+                    <div data-x="0.67" data-y="0.60" class="child-room">办公室（3区）</div>
+                    <div data-x="0.36" data-y="0.60" class="child-room">办公室（2区）</div>
+                    <div data-x="0.14" data-y="0.65" class="child-room">办公室、会议室（1区）</div>
+                    <div data-x="0.14" data-y="0.64" class="child-room">办公室、会议室（5区）</div>
+                    <div data-x="0.80" data-y="0.33" class="child-room">麻醉手术部</div>
+                </div>
+            </li>
+            <li class="floor-li">
+                <div data-img="4" class="floor-bpx">门诊医技楼4F(科室分布图)
+                    <span class="close-img"></span>
+                </div>
+                <div class="child-box">
+                    <div data-x="0.14" data-y="0.64" class="child-room">信息科</div>
+                    <div data-x="0.45" data-y="0.54" class="child-room">信息科/病案统计室/综合档案室</div>
+                    <div data-x="0.85" data-y="0.60" class="child-room">康复医学科（二）</div>
+                    <div data-x="0.67" data-y="0.60" class="child-room">康复医学科（一）</div>
+                    <div data-x="0.36" data-y="0.60" class="child-room">皮肤性病科</div>
+                    <div data-x="0.14" data-y="0.65" class="child-room">口腔科</div>
+                    <div data-x="0.80" data-y="0.33" class="child-room">血液净化室</div>
+                </div>
+            </li>
+            <li class="floor-li">
+                <div data-img="3" class="floor-bpx">门诊医技楼3F(科室分布图)
+                    <span class="close-img"></span>
+                </div>
+                <div class="child-box">
+                    <div data-x="0.14" data-y="0.64" class="child-room">中医科</div>
+                    <div data-x="0.45" data-y="0.54" class="child-room">内镜中心</div>
+                    <div data-x="0.77" data-y="0.54" class="child-room">重症医学科</div>
+                    <div data-x="0.85" data-y="0.60" class="child-room">眼科</div>
+                    <div data-x="0.67" data-y="0.60" class="child-room">耳鼻咽喉科</div>
+                    <div data-x="0.36" data-y="0.60" class="child-room">骨外/胸外科/泌尿科/麻醉门诊</div>
+                    <div data-x="0.14" data-y="0.65" class="child-room">普外科/神经科/疼痛科/PICC/伤口治疗</div>
+                </div>
+            </li>
+            <li class="floor-li">
+                <div data-img="2" class="floor-bpx">门诊医技楼２F(科室分布图)
+                    <span class="close-img"></span>
+                </div>
+                <div class="child-box">
+                    <div data-x="0.36" data-y="0.60" class="child-room">普内科/消化内科/内分泌科/全科门诊/神经内科/肾内科/精神科/风湿免疫科/营养门诊/分诊台
+                    </div>
+                    <div data-x="0.14" data-y="0.65" class="child-room">健康体检科(1区)</div>
+                    <div data-x="0.14" data-y="0.54" class="child-room">健康体检科(5区)</div>
+                    <div data-x="0.35" data-y="0.64" class="child-room">超声医学科</div>
+                    <div data-x="0.65" data-y="0.64" class="child-room">医学检验学科</div>
+                    <div data-x="0.42" data-y="0.64" class="child-room">心电图室/脑电/肌垫图室</div>
+                    <div data-x="0.67" data-y="0.60" class="child-room">心血管内科/肿瘤科/呼吸与危重医学科</div>
+                    <div data-x="0.80" data-y="0.60" class="child-room">急诊观察室</div>
+                    <div data-x="0.85" data-y="0.60" class="child-room">急诊输液室</div>
+                </div>
+            </li>
+            <li class="floor-li">
+                <div data-img="1" class="floor-bpx">门诊医技楼１F(科室分布图)
+                    <!-- <span class="expend-img"></span> -->
+                    <span class="close-img"></span>
+                </div>
+                <div class="child-box" style="display: block;">
+                    <div data-x="0.25" data-y="0.88" class="child-room">儿科门诊</div>
+                    <div data-x="0.32" data-y="0.85" class="child-room">儿童保健科门诊</div>
+                    <div data-x="0.35" data-y="0.84" class="child-room">产科/妇科门诊</div>
+                    <div data-x="0.52" data-y="0.84" class="child-room">门诊主出入口</div>
+                    <div data-x="0.7" data-y="0.84" class="child-room">急诊科</div>
+                    <div data-x="0.44" data-y="0.48" class="child-room">门诊中药房</div>
+                    <div data-x="0.4" data-y="0.48" class="child-room">门诊西药房</div>
+                    <div data-x="0.68" data-y="0.45" class="child-room">放射科</div>
+                </div>
+            </li>
+            <li class="floor-li">
+                <div data-img="-1" class="floor-bpx">地下－１F(科室分布图)
+                    <span class="close-img"></span>
+                </div>
+                <div class="child-box">
+                    <div data-x="0.2" data-y="0.65" class="child-room">非机动车库(C1)</div>
+                    <div data-x="0.9" data-y="0.75" class="child-room">非机动车库(A4)</div>
+                    <div data-x="0.4" data-y="0.75" class="child-room">保卫科</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script>
+    function rem() {
+        var width = document.body.clientWidth;
+        var fontSize = (document.getElementsByTagName("html")[0].style.fontSize =
+            width / 19.2 + "px");
+    }
+
+    function getDateTime() {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var week = date.getDay();
+        var weekText = '';
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+        $('.date').text(year + '.' + month + '.' + day)
+        switch (week) {
+            case 0:
+                weekText = '星期日';
+                break;
+            case 1:
+                weekText = '星期一';
+                break;
+            case 2:
+                weekText = '星期二';
+                break;
+            case 3:
+                weekText = '星期三';
+                break;
+            case 4:
+                weekText = '星期四';
+                break;
+            case 5:
+                weekText = '星期五';
+                break;
+            case 6:
+                weekText = '星期六';
+                break;
+        }
+        $('.week').text(weekText);
+        getTime();
+    }
+
+    function getTime() {
+        var date = new Date();
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+        hour = hour < 10 ? '0' + hour : hour;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        $('.time').text(hour + ':' + minutes);
+        setTimeout(function () {
+            getTime();
+        }, 1000 * 30)
+    }
+    window.onload = function () {
+        rem();
+        getDateTime();
+    }
+</script>
+<script type="text/javascript" src="js/touch.min.js"></script>
+<script type="text/javascript" src="js/cat.touchjs.js"></script>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var content = $('.map-box');
+        var contentW = content.width();
+        var contentH = content.height();
+        var img = $('#targetObj');
+        var $targetObj = $('#targetObj');
+        //初始化设置
+        cat.touchjs.init($targetObj, function (left, top, scale, rotate) {
+            $('#left').text(left);
+            $('#top').text(top);
+            $('#scale').text(scale);
+            $('#rotate').text(rotate);
+            $targetObj.css({
+                left: left,
+                top: top,
+                'transform': 'scale(' + scale + ') rotate(' + rotate + 'deg)',
+                '-webkit-transform': 'scale(' + scale + ') rotate(' + rotate + 'deg)'
+            });
+        });
+        //初始化拖动手势（不需要就注释掉）
+        cat.touchjs.drag($targetObj, function (left, top) {
+            checkImg();
+        });
+        //初始化缩放手势（不需要就注释掉）
+        cat.touchjs.scale($targetObj, function (scale) {
+            checkImg();
+        });
+        //初始化旋转手势（不需要就注释掉）
+        // cat.touchjs.rotate($targetObj, function (rotate) {
+        //     $('#rotate').text(rotate);
+        // });
+        // 放大地图
+        $('.enlarge-img').on('click', function () {
+            var img = $('.map-img');
+            var width = img.width();
+            var height = img.height();
+            var left = img.position().left;
+            var top = img.position().top;
+            var step = 400;
+            img.css({
+                width: width + step,
+                height: parseInt((width + step) / 1.1),
+            })
+
+        })
+        // 缩小地图
+        $('.narrow-img').on('click', function () {
+            var step = 400;
+            var content = $('.map-box');
+            var contentW = content.width();
+            var contentH = content.height();
+            var img = $('.map-img');
+            var width = img.width() - step;
+            var height = width / 1.1;
+            //缩小图片
+            if (width < contentW) {
+                width = contentW;
+                height = contentW / 1.1
+            }
+            img.css({
+                width: width,
+                height: height
+            })
+            checkImg();
+        })
+        //跳转地图坐标
+        $('.child-room').on('click', function () {
+            $('.child-room').removeClass('active-li');
+            $(this).addClass('active-li')
+            var dataX = $(this).attr('data-x');
+            var dataY = $(this).attr('data-y');
+            var content = $('.map-box');
+            var contentW = content.width();
+            var contentH = content.height();
+            var img = $('.map-img');
+            var width = contentW * 3;
+            var height = contentH * 3;
+            var left = '';
+            var top = '';
+            if (dataY > 0.5) {
+                top = -(height * dataY - contentH * 0.5) + 'px';
+            } else {
+                top = (contentH * 0.5 - height * dataY) + 'px';
+            }
+            if (dataX > 0.5) {
+                left = -(width * dataX - contentW * 0.5) + 'px';
+            } else {
+                left = (contentW * 0.5 - width * dataX) + 'px';
+            }
+            img.css({
+                width: width + 'px',
+                height: height + 'px',
+                left: left,
+                top: top
+            })
+        })
+        //更换地图
+        $('.floor-ul').on('click', '.floor-bpx', function () {
+            var iconSpan = $(this).children('span');
+            if (iconSpan.hasClass('close-img')) {
+                $('.child-box').hide();
+                $('.expend-img').removeClass('expend-img').addClass('close-img');
+                iconSpan.removeClass('close-img').addClass('expend-img');
+                $(this).next().show();
+            } else {
+                iconSpan.removeClass('expend-img').addClass('close-img');
+                $(this).next().hide();
+            }
+
+            var content = $('.map-box');
+            var contentW = content.width();
+            var imgSrc = './imgs/' + $(this).attr('data-img') + 'F.jpg';
+            $('.map-img').attr('src', imgSrc).css({
+                width: contentW,
+                height: 'auto',
+                top: 0,
+                left: 0
+            });
+
+            // var eIndex = $(this).attr('data-img');
+            // eIndex = eIndex<0?0:eIndex;
+            // $('.map-img').removeClass('active-img');
+            // $($('.map-img')[eIndex]).addClass('active-img').css({
+            //     width:contentW,
+            //     height:contentH
+            // });
+
+        })
+
+    });
+
+    //保存并刷新
+    function save() {
+        var data = {
+            left: cat.touchjs.left,
+            top: cat.touchjs.top,
+            scale: cat.touchjs.scaleVal,
+            rotate: cat.touchjs.rotateVal
+        };
+        //本地存储
+        window.localStorage.cat_touchjs_data = JSON.stringify(data);
+        window.location = window.location;
+    };
+    //重置
+    function reset() {
+        var data = {
+            left: 0,
+            top: 0,
+            scale: 1,
+            rotate: 0
+        };
+        //本地存储
+        window.localStorage.cat_touchjs_data = JSON.stringify(data);
+        window.location = window.location;
+    };
+    //检测图片是否出界
+    function checkImg() {
+        var contentW = $('.map-box').width();
+        var contentH = $('.map-box').height();
+        var img = $('#targetObj');
+        var imgW = img.width();
+        var imgH = img.height();
+        var top = img.position().top;
+        var left = img.position().left;
+        if (left > 0 && left > contentW - 100) {
+            img.css({
+                left: contentW - 100
+            })
+        }
+        if (left < 0 && Math.abs(left) > imgW - 100) {
+            img.css({
+                left: -(imgW - 100)
+            })
+        }
+        if (top > 0 && top > contentH - 100) {
+            img.css({
+                top: contentH - 100
+            })
+        }
+        if (top < 0 && Math.abs(top) > imgH - 100) {
+            img.css({
+                top: -(imgH - 100)
+            })
+        }
+
+        // //判断图片是否出界
+        // var left = img.position().left;
+        // var top = img.position().top;
+        // //图片在右边出界
+        // if (left > 0 && left > contentW) {
+        //     img.css({
+        //         left: 100
+        //     })
+        // }
+        // if (left < 0 && Math.abs(left) > width - 100) {
+        //     img.css({
+        //         left: -(width - 100)
+        //     })
+        // }
+        // if (top > 0 && top > contentH) {
+        //     img.css({
+        //         top: contentH - 100
+        //     })
+        // }
+        // if (top < 0 && Math.abs(top) > height - 100) {
+        //     img.css({
+        //         top: -(height - 100)
+        //     })
+        // }
+    }
+</script>
+
+</html>
