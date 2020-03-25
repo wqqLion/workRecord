@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  // alert`hello`
+  // alert(['hello','2'])
+
+  // let a = 5;
+  // let b = 10;
+  // function tag(s,v1,v2){
+  //   console.log(s[0]);
+  // console.log(s[1]);
+  // console.log(s[2]);
+  // console.log(v1);
+  // console.log(v2);
+  // }
+  // tag`Hello ${ a + b } world ${ a * b}`;
+  let total = 30;
+  // let msg = passthru`the total is $t{total} ($t{total*1.05} with tax)`;
+  let msg = passthru`$t{total}`;
+  function passthru(literals){
+    let result = '';
+    let i =0;
+    console.log(literals)
+    while(i<literals.length){
+      result += literals[i++];
+      if(i<arguments.length){
+        // result += arguments[i]
+      }
+    }
+    return result;
+  }
+  console.log(msg)
+</script>
+</html>

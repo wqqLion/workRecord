@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  function tco(f){
+    var value;
+    var active = false;
+    var accumulated = [];
+    return function accumulator(){
+      accumulated.push(arguments);
+      if(!active){
+        active = true;
+        while(accumulated.length){
+          value = f.apply(this,accumulated.shift());
+          console.log(value)
+        }
+        active = false;
+        return value;
+      }
+    }
+  }
+  var sum = tco(function(x,y){
+    if(y>0){
+      return sum(x+1,y-1)
+    }else{
+      return x;
+    }
+  });
+  // console.log(sum)
+  // console.log(sum(1,10000));
+  var test = 'abcd';
+  console.log(test[0])
+</script>
+</html>
