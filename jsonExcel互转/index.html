@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.update_btn {
+			border: 1px solid #CCCCCC;
+			border-radius: 2px;
+			margin-left: 3px;
+			font-size: 16px;
+			height: 28px;
+			background-repeat: repeat;
+		}
+
+		/* span {
+			width: 100px;
+			display: inline-block;
+		} */
+	</style>
+</head>
+
+<body>
+	<div>
+		<div style="float: left;">
+			<span>
+				Excel转JSON：
+			</span>
+			<input type="file" id="fileUploader" name="fileUploader" class="update_btn" />
+		</div>
+		<div style="padding-left:20px">
+			<input type="button" value="开始上传" class="update_btn" onclick="UploadFile()" />
+		</div>
+	</div>
+	</br>
+	<div style="margin-top: 50px;">
+		<div style="float: left;">
+			<span>
+				JSON转Excel：
+			</span>
+			<input type="file" id="JSONUploader" name="JSONUploader" class="update_btn" />
+		</div>
+		<div style="padding-left:20px">
+			<input type="button" value="开始上传" class="update_btn" onclick="dataToExcel()" />
+		</div>
+	</div>
+</body>
+<script src="js/jquery.js"> </script>
+<script lang="javascript" src="js/xlsx.full.min.js"></script>
+<script src="js/FileSaver.js"></script>
+<script src="js/jszip.min.js"></script>
+<script src="js/main.js"> </script>
+
+</html>

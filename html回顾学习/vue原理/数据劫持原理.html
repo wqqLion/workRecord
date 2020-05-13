@@ -1,0 +1,42 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: wqq
+ * @Date: 2020-05-13 10:33:00
+ * @LastEditors: wqq
+ * @LastEditTime: 2020-05-13 10:37:25
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  let school = {
+    name: ''
+  }
+  let val;
+  
+  // Object.defineProperty
+  Object.defineProperty(school,'name',{
+    enumerable:true, //是否可枚举
+    configurable:true,//是否可配置
+    get(){
+      return val;
+    },
+    set(newVl){
+      val = newVl;
+    }
+  })
+  school.name = 'jw'; //设置属性
+  console.log(school.name) //获取属性
+</script>
+
+</html>

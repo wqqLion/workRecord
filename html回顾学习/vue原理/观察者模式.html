@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  // 目标者类
+  class Subject{
+    constructor(){
+      this.observers = [];//观察者列表
+    }
+    add(observer){
+      this.observers.push(observer);
+    }
+    remove(observer){
+      let idx = this.observers.indexOf(observer);
+      if(idx>1){
+        this.observers.splice(idx,1)
+      }
+    }
+    notify(){
+      for(let observer of this.observers){
+        observer.update();
+      }
+    }
+  }
+  //观察者类
+  class Observer{
+    constructor(name){
+      this.name = name;
+    }
+    update(){
+      console.log('目标通知更新')
+    }
+  }
+
+  let subject = new Subject();
+
+  let obs1 = new Observer('前端');
+  console.log(obs1)
+  subject.add(obs1);
+  console.log(obs1)
+  subject.notify()
+
+
+
+</script>
+</html>

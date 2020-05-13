@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>
+    <div style="float: left;">
+      <span>
+        Excel转JSON：
+      </span>
+      <input type="file" id="fileUploader" name="fileUploader" class="update_btn" />
+    </div>
+    <div style="padding-left:20px">
+      <input type="button" value="开始上传" id="export" class="update_btn" />
+    </div>
+  </div>
+
+  <div style="margin-top: 50px;">
+    <div style="float: left;">
+      <span>
+        JSON转Excel：
+      </span>
+      <input type="file" id="JSONUploader" name="JSONUploader" class="update_btn" />
+    </div>
+    <div style="padding-left:20px">
+      <input type="button" value="开始上传" class="update_btn" id="btn-excel" />
+    </div>
+  </div>
+</body>
+<script src="./js/jquery.js"></script>
+<script src="./js/xlsx.full.min2.js"></script>
+<script src="./js/FileSaver.js"></script>
+<script src="./js/jszip.min.js"></script>
+<script>
+  $(function () {
+    $('#btn-excel').click(function () {
+      dataToExcel()
+    })
+    $('#export').click(function () {
+      excelTojson()
+    })
+  })
+  // JSON转Excel
+  function dataToExcel() {
+    var selectedFile = document.getElementById('JSONUploader').files[0];
+    var filename = selectedFile.name.split('.')[0];
+    var wopts = {
+      bookType: 'xlsx',
+      bookSST: false,
+      type: 'binary'
+    }; //这里的数据是用来定义导出的格式类型
+    var wb = {
+      SheetNames: [filename],
+      Sheets: {},
+      Props: {}
+    };
+    var reader = new FileReader();
+    reader.readAsText(selectedFile, "UTF-8"); //读取文件
+    reader.onload = function (event) {
+      var data = new Array();
+      data.push(JSON.parse(event.target.result));
+      wb.Sheets[filename] = XLSX.utils.json_to_sheet(data);
+
+      var str = XLSX.write(wb, wopts);
+      var buffer = new ArrayBuffer(str.length);
+      var view = new Uint8Array(buffer);
+      for (var i = 0; i != str.length; ++i) {
+        view[i] = str.charCodeAt(i) & 0xFF;
+      }
+      var blob = new Blob([buffer], {
+        type: "application/octet-stream"
+      });
+      saveAs(blob, filename + ".xlsx");
+    }
+
+  }
+  //Excel转JSOn
+  function excelTojson() {
+    //获取到选中的文件
+    var file = document.querySelector("#fileUploader").files[0];
+    var fileName = file.name.split('.')[0];
+    var type = file.name.split('.');
+    if (type[type.length - 1] !== 'xlsx' && type[type.length - 1] !== 'xls') {
+      alert('只能选择excel文件导入');
+      return false;
+    }
+    var reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = function (e) {
+      var data = e.target.result;
+      var zzexcel = window.XLS.read(data, {
+        type: 'binary'
+      });
+      result = [];
+      for (var i = 0; i < zzexcel.SheetNames.length; i++) {
+        var newData = window.XLS.utils.sheet_to_json(zzexcel.Sheets[zzexcel.SheetNames[i]]);
+        for(var i=0;i<newData.length;i++){
+          result.push(newData[i])
+        }
+      }
+      var content = JSON.stringify(result);
+      var blob = new Blob([content], {
+        type: "text/plain;charset=utf-8"
+      });
+      saveAs(blob, fileName+".json");
+    }
+    
+  }
+
+</script>
+
+</html>

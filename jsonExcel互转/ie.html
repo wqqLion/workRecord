@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>
+    <div style="float: left;">
+      <span>
+        Excel转JSON：
+      </span>
+      <input type="file" id="fileUploader" name="fileUploader" class="update_btn" />
+    </div>
+    <div style="padding-left:20px">
+      <input type="button" value="开始上传" id="export" class="update_btn" />
+    </div>
+  </div>
+
+  <div style="margin-top: 50px;">
+    <div style="float: left;">
+      <span>
+        JSON转Excel：
+      </span>
+      <input type="file" id="JSONUploader" name="JSONUploader" class="update_btn" />
+    </div>
+    <div style="padding-left:20px">
+      <input type="button" value="开始上传" class="update_btn" id="btn-excel" />
+    </div>
+  </div>
+</body>
+<script src="./js/jquery.js"></script>
+<script src="./js/xlsx.full.min2.js"></script>
+<script src="./js/FileSaver.js"></script>
+<script src="./js/jszip.min.js"></script>
+<script>
+  $(function () {
+    $('#btn-excel').click(function () {
+      dataToExcel()
+    })
+    $('#export').click(function () {
+      excelTojson()
+    })
+  })
+  // JSON转Excel
+  function dataToExcel() {
+    var selectedFile = document.getElementById('JSONUploader').files[0];
+    var filename = selectedFile.name.split('.')[0];
+    var wopts = {
+      bookType: 'xlsx',
+      bookSST: false,
+      type: 'binary'
+    }; //这里的数据是用来定义导出的格式类型
+    var wb = {
+      SheetNames: [filename],
+      Sheets: {},
+      Props: {}
+    };
+    var reader = new FileReader();
+    reader.readAsText(selectedFile, "UTF-8"); //读取文件
+    reader.onload = function (event) {
+      var data = new Array();
+      data.push(JSON.parse(event.target.result));
+      wb.Sheets[filename] = XLSX.utils.json_to_sheet(data);
+
+      var str = XLSX.write(wb, wopts);
+      var buffer = new ArrayBuffer(str.length);
+      var view = new Uint8Array(buffer);
+      for (var i = 0; i != str.length; ++i) {
+        view[i] = str.charCodeAt(i) & 0xFF;
+      }
+      var blob = new Blob([buffer], {
+        type: "application/octet-stream"
+      });
+      saveAs(blob, filename + ".xlsx");
+    }
+
+  }
+  //Excel转JSOn
+  function excelTojson() {
+    // if (!$("#file").get(0).files[0]) {
+    //   return;
+    // }
+    var file = document.querySelector("#fileUploader").files[0];
+    var fileName = file.name.split('.')[0];
+    var reader = new FileReader();
+    var strArr = [];
+    var wb;
+    var rABS = false;
+    var that = this;
+    var result = [];
+    reader.onload = function (data) {
+      var data = data.content;
+      if (rABS) {
+        wb = XLSX.read(btoa(this.fixdata(data)), { //手动转化
+          type: 'base64'
+        });
+      } else {
+        wb = XLSX.read(data, {
+          type: 'binary'
+        });
+      }
+      //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+      //wb.Sheets[Sheet名]获取第一个Sheet的数据
+      var tempArr = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      for (var i = 0; i < tempArr.length; i++) {
+        result.push(tempArr[i])
+        // var ss = {};
+        // ss.filename = tt['文件名称'];
+        // ss.filenum = tt['张数'];
+        // ss.remark = tt['备注'];
+        // ss.editable = false;
+        // strArr.push(ss);
+        // that.form.qdmxVOS.push(ss);
+      }
+      var content = JSON.stringify(result);
+      var blob = new Blob([content], {
+        type: "text/plain;charset=utf-8"
+      });
+      saveAs(blob, fileName+".json");
+      // that.dialogVisible = false;
+      // that.page = 'view';
+    };
+    if (rABS) {
+      reader.readAsArrayBuffer(file);
+    } else {
+      reader.readAsBinaryString(file);
+    }
+
+  }
+  FileReader.prototype.readAsBinaryString = function (fileData) {
+    var binary = "";
+    var pt = this;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var bytes = new Uint8Array(reader.result);
+      var length = bytes.byteLength;
+      for (var i = 0; i < length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      pt.content = binary;
+      pt.onload(pt); //页面内data取pt.content文件内容
+    }
+    reader.readAsArrayBuffer(fileData);
+  }
+</script>
+
+</html>

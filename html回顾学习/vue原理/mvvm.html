@@ -1,0 +1,41 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: wqq
+ * @Date: 2020-03-26 16:51:07
+ * @LastEditors: wqq
+ * @LastEditTime: 2020-05-13 12:25:15
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 学习 -->
+  <!-- https://juejin.im/post/5af8eb55f265da0b814ba766 -->
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model='message.a'>
+    {{b}}
+    <br>
+    {{message.a}}
+  </div>
+</body>
+<script>
+  a = 1;
+</script>
+<script type="module">
+  import {MVVM} from './mvvm.js'
+  window.vm = new MVVM({
+    el:'#app',
+    data:{
+      message:{
+        a:'jw'
+      },
+      b:'myMVVM'
+    }
+  })
+</script>
+</html>
